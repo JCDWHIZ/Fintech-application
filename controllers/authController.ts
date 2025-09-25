@@ -20,11 +20,11 @@ export const registerUser = async (req: Request, res: Response) => {
         message: "Email already taken",
       });
     }
-    // if (phoneNumber.length != 11) {
-    //   return res.status(400).json({
-    //     message: "Phone Number must be 11 digits",
-    //   });
-    // }
+    if (String(phoneNumber).length != 11) {
+      return res.status(400).json({
+        message: "Phone Number must be 11 digits",
+      });
+    }
     const existingPhoneNumber = await User.findOne({ phoneNumber });
     if (existingPhoneNumber) {
       return res.status(400).json({

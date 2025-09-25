@@ -45,12 +45,10 @@ const UserSchema: Schema<UserInterface> = new Schema({
   },
   ninNumber: {
     type: Number,
-    unique: true,
     required: false,
   },
   bvnNumber: {
     type: Number,
-    unique: true,
   },
   tier: {
     type: Number,
