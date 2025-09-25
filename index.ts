@@ -1,16 +1,25 @@
 import express from "express";
 import { ConnectToDb } from "./config/db";
+// import { createBvns, createNins } from "./models/seed";
 const app = express();
 const port = 3000;
-const bvnRoutes = require("./routes/bvnRoutes")
+const bvnRoutes = require("./routes/bvnRoutes");
+const authRoutes = require("./routes/authRoutes");
 require("dotenv").config();
 app.use(express.json());
 ConnectToDb();
+// createBvns();
+// createNins();
 app.get("/", (req, res) => {
   res.json({ message: "Hello World" });
 });
 
 app.use("/api/bvn", bvnRoutes);
+app.use("/api/auth", authRoutes);
+app.listen(port, () => {
+  console.log(`server listening on port ${port}`);
+});
+
 // create 3 endpoints for get request
 // /about which returns a json of message: "Welcome to about page"
 // /home which returns a json of message: "Welcome to home page"
@@ -48,31 +57,27 @@ app.use("/api/bvn", bvnRoutes);
 // });
 
 // update request using put
-app.put("/about", (req, res) => {
-  const { name, price, size } = req.body;
+// app.put("/about", (req, res) => {
+//   const { name, price, size } = req.body;
 
-  return res.json({
-    name,
-    price,
-    size,
-  });
-});
+//   return res.json({
+//     name,
+//     price,
+//     size,
+//   });
+// });
 
 // delete request using a route parameter
-app.delete("/about/:id", (req, res) => {
-  const { id } = req.params;
+// app.delete("/about/:id", (req, res) => {
+//   const { id } = req.params;
 
-  return res.json({
-    message: `deleting product with id: ${id}`,
-  });
-});
+//   return res.json({
+//     message: `deleting product with id: ${id}`,
+//   });
+// });
 // create endpoints 1 post request, 1 put request and 1 delete request
 // /product - post request which recieves a payload of name, price, stock and returns a json of message: "created product succefully" and the name, price and stock
 
 // /product/:id - put request which recieves a payload of name, price, stock in the body and id from the route params and returns a json of message: "updated product succefully" and the name, price and stock and id as well
 
 // /product/:id - delete request which returns a json of message: deleted product and returns the id as well
-
-app.listen(port, () => {
-  console.log(`server listening on port ${port}`);
-});
