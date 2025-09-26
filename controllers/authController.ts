@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { User } from "../models/User";
+import { User, userStatus } from "../models/User";
+import bcrypt from "bcrypt";
 import { Bvn } from "../models/Bvn";
 export const registerUser = async (req: Request, res: Response) => {
   const {
@@ -50,7 +51,12 @@ export const registerUser = async (req: Request, res: Response) => {
       address,
       stateOfOrigin,
       bvnNumber,
+      status: userStatus.active,
+      passwordTrials: 5,
+      tier: 1,
+      accountBalance: 0.0,
     });
+    await user.save();
 
     return res.status(201).json({
       message: "User created successfully",
@@ -63,5 +69,46 @@ export const registerUser = async (req: Request, res: Response) => {
     });
   }
 };
-export const loginUserWithpin = async (req: Request, res: Response) => {};
+export const loginUserWithpin = async (req: Request, res: Response) => {
+  const { pin, email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        message: "User Not found",
+      });
+    }
+
+    if (user.passwordTrial == 0) {
+      user.status = userStatus.blocked.toString();
+      await user.save();
+      return res.status(403).json({
+        message: `Hafa this account has been blocked.You can always start afresh 😁😂`,
+      });
+    }
+    const isValid = await bcrypt.compare(pin, user.pin);
+    if (!isValid) {
+      user.passwordTrial - 1;
+      console.log(user);
+      console.log(user.passwordTrial);
+      await user.save();
+      return res.status(404).json({
+        message: `Incorrect Pin number. Trials remain: ${user.passwordTrial}`,
+      });
+    }
+
+    return res.status(201).json({
+      message: "Logged in successfully",
+      // accesstoken
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Failed to register user",
+      error,
+    });
+  }
+};
 export const loginUserWithPassword = async (req: Request, res: Response) => {};
+export const forgotUserPin = async (req: Request, res: Response) => {};
+export const setUserPin = async (req: Request, res: Response) => {};

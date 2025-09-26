@@ -1,20 +1,28 @@
 import { ObjectId } from "mongodb";
 import { model, Schema } from "mongoose";
+import bcrypt from "bcrypt";
 
 interface UserInterface {
-  password: String;
+  password: string; // use small letters to define types for intefaces, using capital letters signify a constructor
   email: string;
-  phoneNumber: Number;
+  phoneNumber: number;
   fullName: string;
   dateOfBirth: Date;
   address: string;
   stateOfOrigin: string;
-  ninNumber?: Number; // references Nin model
-  bvnNumber: Number; // references Bvn model
-  tier: Number;
-  accountBalance: Number;
-  pin: Number;
+  ninNumber?: number; // references Nin model
+  bvnNumber: number; // references Bvn model
+  tier: number;
+  accountBalance: number;
+  pin: string;
+  passwordTrial: number;
+  status: string;
   // BeneficiaryList: ObjectId[]
+}
+
+export enum userStatus {
+  blocked,
+  active,
 }
 
 const UserSchema: Schema<UserInterface> = new Schema({
@@ -46,6 +54,7 @@ const UserSchema: Schema<UserInterface> = new Schema({
   ninNumber: {
     type: Number,
     required: false,
+    unique: false,
   },
   bvnNumber: {
     type: Number,
@@ -56,13 +65,31 @@ const UserSchema: Schema<UserInterface> = new Schema({
   },
   accountBalance: {
     type: Number,
-    defaultValue: 0.0,
+    // defaultValue: 0.0,
   },
   pin: {
-    type: Number,
-    minlength: 4,
-    maxLength: 6,
+    type: String,
   },
+  passwordTrial: {
+    type: Number,
+    // defaultValue: 5,
+  },
+  status: {
+    type: String,
+    enum: userStatus,
+    defaultValue: userStatus.active.toString(),
+  },
+});
+
+UserSchema.pre("save", async function (next) {
+  const user = this;
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, 10);
+  }
+  if (user.isModified("pin")) {
+    user.pin = await bcrypt.hash(user.pin, 10);
+  }
+  next();
 });
 
 export const User = model("Users", UserSchema);
