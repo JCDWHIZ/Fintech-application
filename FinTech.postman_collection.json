@@ -8,7 +8,280 @@
 	"item": [
 		{
 			"name": "Auth",
-			"item": []
+			"item": [
+				{
+					"name": "Register a user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"bvnNumber\": 100006,\r\n   \"email\": \"test5@gmail.com\",\r\n   \"password\": \"Jesse111@\",\r\n   \"pin\": \"1234\",\r\n  \"phoneNumber\":12345678912,\r\n  \"fullName\": \"test 101\",\r\n  \"dateOfBirth\": \"2001-01-01\",\r\n  \"address\": \"123, wlak stree, Usa\",\r\n  \"stateOfOrgin\": \"Kentucky\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{authUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{authUrl}}"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "clothing",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "asc",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"bvnNumber\": 100006,\r\n   \"email\": \"test3@gmail.com\",\r\n   \"password\": \"Jesse111@\",\r\n   \"pin\": 1234,\r\n  \"phoneNumber\":12345678911,\r\n  \"fullName\": \"test 101\",\r\n  \"dateOfBirth\": \"2001-01-01\",\r\n  \"address\": \"123, wlak stree, Usa\",\r\n  \"stateOfOrgin\": \"Kentucky\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/{{authUrl}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{authUrl}}"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "clothing",
+											"disabled": true
+										},
+										{
+											"key": "sortBy",
+											"value": "asc",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Content-Length",
+									"value": "290"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"122-1tN6aoTN2QyQiZRmcKLw72d7G2w\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Sep 2025 14:52:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User created successfully\",\n    \"user\": {\n        \"email\": \"test3@gmail.com\",\n        \"password\": \"Jesse111@\",\n        \"phoneNumber\": 12345678911,\n        \"fullName\": \"test 101\",\n        \"dateOfBirth\": \"2001-01-01T00:00:00.000Z\",\n        \"address\": \"123, wlak stree, Usa\",\n        \"bvnNumber\": 100006,\n        \"pin\": 1234,\n        \"_id\": \"68d55729f0fb5ae717780b62\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Login a user with pin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"email\": \"test4@gmail.com\",\r\n   \"pin\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{authUrl}}/pin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{authUrl}}",
+								"pin"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "clothing",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "asc",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"email\": \"test4@gmail.com\",\r\n   \"pin\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/{{authUrl}}/pin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{authUrl}}",
+										"pin"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "clothing",
+											"disabled": true
+										},
+										{
+											"key": "sortBy",
+											"value": "asc",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Content-Length",
+									"value": "328"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"148-7CAP3T95u5xfeo3EIaUkC7jilc8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Sep 2025 14:06:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Logged in successfully\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGE5MTI2MTFmZjZlY2NmMzRjZTlkMiIsInBob25lTnVtYmVyIjoxMjM0NTY3ODkxMywidGllciI6MSwiZW1haWwiOiJ0ZXN0NEBnbWFpbC5jb20iLCJmdWxsbmFtZSI6InRlc3QgMTAxIiwiaWF0IjoxNzU5MTU0Nzc4LCJleHAiOjE3NTkxNTUwNzh9.UXHgydmAei6EIpORmy-GRVPWeKUQRWtSO792riWd5uA\"\n}"
+						}
+					]
+				},
+				{
+					"name": "New Request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGE5MTI2MTFmZjZlY2NmMzRjZTlkMiIsInBob25lTnVtYmVyIjoxMjM0NTY3ODkxMywidGllciI6MSwiZW1haWwiOiJ0ZXN0NEBnbWFpbC5jb20iLCJmdWxsbmFtZSI6InRlc3QgMTAxIiwiaWF0IjoxNzU5MTU3MzM1LCJleHAiOjE3NTkxNTc2MzV9.gQnmuLEBY8sgTwfsc9-Imm78YUZ0jMY0Tl9qGVx5oHI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"bvnNumber\": 100006,\r\n   \"email\": \"test5@gmail.com\",\r\n   \"password\": \"Jesse111@\",\r\n   \"pin\": \"1234\",\r\n  \"phoneNumber\":12345678912,\r\n  \"fullName\": \"test 101\",\r\n  \"dateOfBirth\": \"2001-01-01\",\r\n  \"address\": \"123, wlak stree, Usa\",\r\n  \"stateOfOrgin\": \"Kentucky\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "clothing",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "asc",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [

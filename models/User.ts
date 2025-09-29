@@ -65,14 +65,14 @@ const UserSchema: Schema<UserInterface> = new Schema({
   },
   accountBalance: {
     type: Number,
-    // defaultValue: 0.0,
+    defaultValue: 0.0,
   },
   pin: {
     type: String,
   },
   passwordTrial: {
     type: Number,
-    // defaultValue: 5,
+    defaultValue: 5,
   },
   status: {
     type: String,
