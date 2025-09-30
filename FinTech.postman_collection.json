@@ -208,7 +208,6 @@
 								{
 									"key": "Content-Type",
 									"value": "application/json",
-									"name": "Content-Type",
 									"description": "",
 									"type": "text"
 								},
@@ -280,6 +279,177 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Forgot password",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{authUrl}}/forgot-pin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{authUrl}}",
+								"forgot-pin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"147moccasin@tiffincrane.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/{{authUrl}}/forgot-pin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{authUrl}}",
+										"forgot-pin"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-fW5xRBnt8ZTqI1oK5cKDnbVpx+U\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Sep 2025 14:26:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"message\": \"Email sent succesfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Set password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGJlNDEwZWVkYTVmNmFlMzg1Mjk2MyIsImVtYWlsIjoiMTQ3bW9jY2FzaW5AdGlmZmluY3JhbmUuY29tIiwiaWF0IjoxNzU5MjQyMzg3LCJleHAiOjE3NTkyNDI2ODd9.ZB9VUcFsCKVqLmNIdp2jbghEwCP2ikMdl5p8E_26f-o\",\r\n    \"pin\": \"1235\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{authUrl}}/set-pin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{authUrl}}",
+								"set-pin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGJlNDEwZWVkYTVmNmFlMzg1Mjk2MyIsImVtYWlsIjoiMTQ3bW9jY2FzaW5AdGlmZmluY3JhbmUuY29tIiwiaWF0IjoxNzU5MjQyMzg3LCJleHAiOjE3NTkyNDI2ODd9.ZB9VUcFsCKVqLmNIdp2jbghEwCP2ikMdl5p8E_26f-o\",\r\n    \"pin\": \"1235\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/{{authUrl}}/set-pin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{authUrl}}",
+										"set-pin"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"message\": \"Your pin has been set\"\n}"
+						}
+					]
 				}
 			]
 		}
