@@ -1,14 +1,17 @@
 import express from "express";
 import { ConnectToDb } from "./config/db";
-// import { createBvns, createNins } from "./models/seed";
+// import { createBvns, createNins, createAdminUser } from "./models/seed";
+// import { createAdminUser } from "./models/seed";
 const app = express();
 const port = 3000;
 import { authMiddleware } from "./middleware/authMiddleware";
 app.use(express.json());
 const bvnRoutes = require("./routes/bvnRoutes");
+const transferRoutes = require("./routes/transferRoutes");
 const authRoutes = require("./routes/authRoutes");
 require("dotenv").config();
 ConnectToDb();
+// createAdminUser();
 // createBvns();
 // createNins();
 app.get("/", authMiddleware, (req: any, res) => {
@@ -17,6 +20,7 @@ app.get("/", authMiddleware, (req: any, res) => {
 });
 
 app.use("/api/bvn", bvnRoutes);
+app.use("/api/transfers", transferRoutes);
 app.use("/api/auth", authRoutes);
 app.listen(port, () => {
   console.log(`server listening on port ${port}`);

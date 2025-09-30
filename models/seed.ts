@@ -2,6 +2,7 @@
 
 // import { Bvn } from "./Bvn";
 // import { Nin } from "./Nin";
+// import { User, userStatus } from "./User";
 // const BvnArrays = [
 //   {
 //     bvnNumber: 100001,
@@ -318,4 +319,22 @@
 //   console.log("nins deleted");
 //   await Nin.insertMany(NinArrays); // this will insert all the ninArrays in the nin table
 //   console.log("nins inserted");
+// };
+
+// export const createAdminUser = async () => {
+//   await User.create({
+//     email: "admin@fintech.com",
+//     password: "_fintech@dev001/",
+//     pin: "3879",
+//     phoneNumber: 37583298642,
+//     fullName: "olowo admin",
+//     dateOfBirth: new Date(),
+//     address: "",
+//     stateOfOrigin: "Edo state",
+//     bvnNumber: 234234,
+//     status: userStatus.active,
+//     passwordTrial: 5,
+//     tier: 3,
+//     accountBalance: 10000000,
+//   });
 // };

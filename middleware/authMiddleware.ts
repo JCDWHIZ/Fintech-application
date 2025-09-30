@@ -30,6 +30,12 @@ export const authMiddleware = async (
     const decoded = jwt.verify(token, jwtsecret) as Decoded;
     const userId = decoded.id;
     const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
     req.user = user;
     console.log(decoded);
     next();

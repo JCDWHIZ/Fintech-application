@@ -1,4 +1,4 @@
-export interface registerUserPayload{
+export interface registerUserPayload {
   email: string;
   password: string;
   pin: string;
@@ -7,5 +7,10 @@ export interface registerUserPayload{
   dateOfBirth: Date;
   address: string;
   stateOfOrigin: string;
-  bvnNumber: number
+  bvnNumber: number;
+}
+
+export interface SetPinDecoded {
+  id: string;
+  email: string;
 }
