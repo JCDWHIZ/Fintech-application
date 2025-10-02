@@ -16,6 +16,8 @@ interface UserInterface {
   accountBalance: number;
   pin: string;
   passwordTrial: number;
+  dailyLimit: number;
+  transactionLimit: number;
   status: string;
   // BeneficiaryList: ObjectId[]
 }
@@ -61,11 +63,19 @@ const UserSchema: Schema<UserInterface> = new Schema({
   },
   tier: {
     type: Number,
-    defaultValue: 1,
+    default: 1,
   },
   accountBalance: {
     type: Number,
-    defaultValue: 0.0,
+    default: 0.0,
+  },
+  dailyLimit: {
+    type: Number,
+    default: 200000,
+  },
+  transactionLimit: {
+    type: Number,
+    default: 50000,
   },
   pin: {
     type: String,

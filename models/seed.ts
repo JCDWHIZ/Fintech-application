@@ -1,5 +1,6 @@
 // used to seed data in to each table e.g Nin and Bvn tables
 
+// import { ConnectToDb } from "../config/db";
 // import { Bvn } from "./Bvn";
 // import { Nin } from "./Nin";
 // import { User, userStatus } from "./User";
@@ -338,3 +339,8 @@
 //     accountBalance: 10000000,
 //   });
 // };
+// ConnectToDb();
+// createBvns();
+// createAdminUser();
+// createNins();
+// console.log("Created all dummy data");

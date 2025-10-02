@@ -14,3 +14,16 @@ export interface SetPinDecoded {
   id: string;
   email: string;
 }
+
+export interface UserDetiails {
+  _id: string;
+  email: string;
+  phoneNumber: number;
+  fullName: string;
+  bvnNumber: number;
+  tier: 1;
+  accountBalance: number;
+  status: number;
+  dailyLimit: number;
+  transactionLimit: number;
+}

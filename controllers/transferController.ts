@@ -1,3 +1,87 @@
 import { Request, Response } from "express";
+import { User } from "../models/User";
+import { UserDetiails } from "../types/user";
+import { Transaction } from "../models/Transactions";
+import { TransactionStatus } from "../types/transaction";
 
-export const transferMoney = async (req: Request, res: Response) => {};
+export const transferMoney = async (req: any, res: Response) => {
+  const start = Date.now();
+  const { amount, recipientAccountNumber, recipientAccountName } = req.body;
+  const userDetails = req.user as UserDetiails;
+  try {
+    const senderDetails = await User.findOne({
+      phoneNumber: userDetails.phoneNumber,
+    });
+
+    if (!senderDetails) {
+      return res.status(400).json({
+        message: "Sender not found",
+      });
+    }
+    if (amount > senderDetails.accountBalance) {
+      return res.status(400).json({
+        message: "Ole thief u wan send money wey u no get 😂",
+      });
+    }
+
+    if (amount > userDetails.dailyLimit) {
+      return res.status(400).json({
+        message: "Hafa you wan pass your daily limit ooo 😂",
+      });
+    }
+    if (amount > userDetails.transactionLimit) {
+      return res.status(400).json({
+        message: "Hafa you wan pass your transfer limit ooo 😂",
+      });
+    }
+
+    // verify the account details
+    const recipientDetails = await User.findOne({
+      phoneNumber: recipientAccountNumber,
+      fullName: recipientAccountName,
+    });
+    if (!recipientDetails) {
+      return res.status(400).json({
+        message: "Recipient not found",
+      });
+    }
+    // enter the transsaction record
+
+    const transaction = await Transaction.create({
+      amount,
+      recipientAccountName,
+      recipientAccountNumber,
+      senderAccountName: senderDetails.fullName,
+      senderAccountNumber: senderDetails.phoneNumber,
+    });
+
+    // update ther user details - credit and debit
+    const deductable = transaction.amount + transaction.transactionFee;
+    senderDetails.accountBalance = senderDetails.accountBalance - deductable;
+    senderDetails.dailyLimit = senderDetails.dailyLimit - amount;
+    recipientDetails.accountBalance =
+      recipientDetails.accountBalance + transaction.amount;
+
+    await recipientDetails.save();
+    await senderDetails.save();
+
+    // update trnsaction details
+
+    transaction.status = TransactionStatus.successful.toString();
+    await transaction.save();
+    const durationMs = Date.now() - start;
+    return res.status(201).json({
+      message: `Transfer successful. It took ${durationMs}s  to complete`,
+      transaction,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to transfer",
+      error,
+    });
+  }
+  // validate how much can be sent based on tier
+};
+
+// add middleware for tier protection and accountBalance
+// add a comand in put package.json to run a ts script which should populate the admin, bvns and nins in our db
