@@ -1,10 +1,10 @@
 import { model, Schema } from "mongoose";
 
 interface BvnSchema {
-  bvnNumber: Number;
-  firstName: String;
-  lastName: String;
-  middleName: String;
+  bvnNumber: number;
+  firstName: string;
+  lastName: string;
+  middleName: string;
 }
 enum somthing {
   Male,
@@ -14,7 +14,7 @@ enum somthing {
 const BvnSchema: Schema<BvnSchema> = new Schema({
   // unique: bool, requrired: bool, type: Data type, match: regex expression, defaultValue: depends on the Type of the field
   bvnNumber: {
-    type: String,
+    type: Number,
     unique: true,
   },
   firstName: { type: String },
