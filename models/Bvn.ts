@@ -6,9 +6,9 @@ interface BvnSchema {
   lastName: String;
   middleName: String;
 }
-enum somthing {
+enum something {
   Male,
-  Femaale,
+  Female,
 }
 
 const BvnSchema: Schema<BvnSchema> = new Schema({

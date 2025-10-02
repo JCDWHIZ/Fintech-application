@@ -1,8 +1,10 @@
-import express from "express";
-import { ConnectToDb } from "./config/db";
+// import { ConnectToDb } from "./config/db";
+import express, { Response } from "express";
 // import { createBvns, createNins } from "./models/seed";
 const app = express();
 const port = 3000;
+// import { authMiddleware } from "./middleware/authMiddleware";
+import { ConnectToDb } from "./config/db";
 import { authMiddleware } from "./middleware/authMiddleware";
 app.use(express.json());
 const bvnRoutes = require("./routes/bvnRoutes");
@@ -11,7 +13,7 @@ require("dotenv").config();
 ConnectToDb();
 // createBvns();
 // createNins();
-app.get("/", authMiddleware, (req: any, res) => {
+app.get("/", authMiddleware, (req: any, res: Response) => {
   console.log(req.user);
   res.json({ message: "Hello World", user: req.user });
 });
