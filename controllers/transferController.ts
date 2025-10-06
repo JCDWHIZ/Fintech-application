@@ -3,12 +3,14 @@ import { User } from "../models/User";
 import { UserDetiails } from "../types/user";
 import { Transaction } from "../models/Transactions";
 import { TransactionStatus } from "../types/transaction";
+import { History } from "../models/History";
 
 export const transferMoney = async (req: any, res: Response) => {
   const start = Date.now();
   const { amount, recipientAccountNumber, recipientAccountName } = req.body;
   const userDetails = req.user as UserDetiails;
   try {
+    console.log(userDetails);
     const senderDetails = await User.findOne({
       phoneNumber: userDetails.phoneNumber,
     });
@@ -18,6 +20,7 @@ export const transferMoney = async (req: any, res: Response) => {
         message: "Sender not found",
       });
     }
+    console.log("sender details", senderDetails);
     if (amount > senderDetails.accountBalance) {
       return res.status(400).json({
         message: "Ole thief u wan send money wey u no get 😂",
@@ -45,6 +48,7 @@ export const transferMoney = async (req: any, res: Response) => {
         message: "Recipient not found",
       });
     }
+    console.log("recipeint details", recipientDetails);
     // enter the transsaction record
 
     const transaction = await Transaction.create({
@@ -55,19 +59,37 @@ export const transferMoney = async (req: any, res: Response) => {
       senderAccountNumber: senderDetails.phoneNumber,
     });
 
+    console.log("transaction", transaction);
     // update ther user details - credit and debit
     const deductable = transaction.amount + transaction.transactionFee;
     senderDetails.accountBalance = senderDetails.accountBalance - deductable;
     senderDetails.dailyLimit = senderDetails.dailyLimit - amount;
     recipientDetails.accountBalance =
       recipientDetails.accountBalance + transaction.amount;
+    senderDetails.gamePoints =
+      senderDetails.gamePoints + transaction.gamePoints;
+
+    console.log("after tracnsaction", transaction);
 
     await recipientDetails.save();
     await senderDetails.save();
 
+    await History.create({
+      userId: senderDetails._id,
+      category: "transfer",
+      amount: deductable,
+      transactionId: transaction._id,
+      status: transaction.status,
+    });
+
+    //  create one for the reciever
+
     // update trnsaction details
 
     transaction.status = TransactionStatus.successful.toString();
+    console.log("saved details");
+    console.log("recipeint details", recipientDetails);
+    console.log("sender details", senderDetails);
     await transaction.save();
     const durationMs = Date.now() - start;
     return res.status(201).json({

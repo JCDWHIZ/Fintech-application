@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+require("dotenv").config();
 export const ConnectToDb = async () => {
   if (!process.env.MONGO_URL) return null;
   try {

@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema, Types } from "mongoose";
 import bcrypt from "bcrypt";
 
 interface UserInterface {
@@ -18,7 +18,9 @@ interface UserInterface {
   dailyLimit: number;
   transactionLimit: number;
   status: string;
-  // BeneficiaryList: ObjectId[]
+  gamePoints: number;
+  beneficiaryList: Types.ObjectId[];
+  historyList: Types.ObjectId[];
 }
 
 export enum userStatus {
@@ -64,6 +66,10 @@ const UserSchema: Schema<UserInterface> = new Schema({
     type: Number,
     default: 1,
   },
+  gamePoints: {
+    type: Number,
+    default: 0,
+  },
   accountBalance: {
     type: Number,
     default: 0.0,
@@ -88,6 +94,8 @@ const UserSchema: Schema<UserInterface> = new Schema({
     enum: userStatus,
     defaultValue: userStatus.active.toString(),
   },
+  beneficiaryList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
+  historyList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Histories" }],
 });
 
 UserSchema.pre("save", async function (next) {

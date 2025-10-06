@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "14debf6b-4065-43ab-b0a9-777f1171974f",
-		"name": "FinTech",
+		"name": "CpBank",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "30123754"
 	},
@@ -124,12 +124,30 @@
 				},
 				{
 					"name": "Login a user with pin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"token = jsonData[\"token\"]\r",
+									"// console.log(token)\r",
+									"\r",
+									"// pm.collectionVariables.set(\"token\", \"variable_value\");\r",
+									"pm.environment.set(\"accessToken\", token);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"email\": \"test4@gmail.com\",\r\n   \"pin\": \"1234\"\r\n}",
+							"raw": "{\r\n   \"email\": \"admin@cpBank.com\",\r\n   \"pin\": \"3879\"\r\n}\r\n// {\r\n//    \"email\": \"147moccasin@tiffincrane.com\",\r\n//    \"pin\": \"1235\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -381,13 +399,13 @@
 					]
 				},
 				{
-					"name": "Set password",
+					"name": "Set pin",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGJlNDEwZWVkYTVmNmFlMzg1Mjk2MyIsImVtYWlsIjoiMTQ3bW9jY2FzaW5AdGlmZmluY3JhbmUuY29tIiwiaWF0IjoxNzU5MjQyMzg3LCJleHAiOjE3NTkyNDI2ODd9.ZB9VUcFsCKVqLmNIdp2jbghEwCP2ikMdl5p8E_26f-o\",\r\n    \"pin\": \"1235\"\r\n}",
+							"raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGU4ZGVlOWI0Nzk0ZWNlN2I0MTM2NiIsImVtYWlsIjoiMTQ3bW9jY2FzaW5AdGlmZmluY3JhbmUuY29tIiwiaWF0IjoxNzU5NTAzMjA3LCJleHAiOjE3NTk1MDM1MDd9.q9N5QnUz9UmE2HKYK4s6Knm1SQSO_yOQE1WyoVXf0mE\",\r\n    \"pin\": \"1235\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -450,10 +468,387 @@
 							"body": "{\n    \"message\": \"Your pin has been set\"\n}"
 						}
 					]
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transfer",
+			"item": [
+				{
+					"name": "Transfer money",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 10000,\r\n    \"recipientAccountNumber\": 12345678915,\r\n    \"recipientAccountName\": \"test 101\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{transferUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{transferUrl}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 1010,\r\n    \"recipientAccountNumber\": 12345678915,\r\n    \"recipientAccountName\": \"test 101\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/{{transferUrl}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{transferUrl}}"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Content-Length",
+									"value": "362"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"16a-dL7p3rdYoFzsAczipNzktL+JgQ0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 Oct 2025 14:49:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Transfer successful. It took 1046s  to complete\",\n    \"transaction\": {\n        \"amount\": 1010,\n        \"recipientAccountName\": \"test 101\",\n        \"recipientAccountNumber\": 12345678915,\n        \"status\": \"2\",\n        \"senderAccountName\": \"olowo admin\",\n        \"senderAccountNumber\": 37583298642,\n        \"_id\": \"68de90e571156a054cb1e008\",\n        \"createdAt\": \"2025-10-02T14:49:09.175Z\",\n        \"updatedAt\": \"2025-10-02T14:49:09.720Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Add Beneficiary",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"beneficiaryAccountNumber\": 12345678915,\r\n    \"beneficiaryAccountName\": \"test 101\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/{{userUrl}}/beneficiary",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{userUrl}}",
+								"beneficiary"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"beneficiaryAccountNumber\": 12345678915,\r\n    \"beneficiaryAccountName\": \"test 101\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/{{userUrl}}/beneficiary",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{userUrl}}",
+										"beneficiary"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Content-Length",
+									"value": "44"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2c-8ErEbDW+DOycViYLhCZVZDStwuE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Oct 2025 14:16:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Beneficiary added successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get user beneficiary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{userUrl}}/beneficiaries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{userUrl}}",
+								"beneficiaries"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/{{userUrl}}/beneficiaries",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{userUrl}}",
+										"beneficiaries"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Content-Length",
+									"value": "168"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a8-2fO1L3zCcczIIdqnFA/fJUJB018\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Oct 2025 14:22:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Beneficiaries fetched successfully\",\n    \"beneficiaries\": [\n        {\n            \"_id\": \"68e3ce5f180bd19de6963a15\",\n            \"phoneNumber\": 12345678915,\n            \"fullName\": \"test 101\",\n            \"accountBalance\": 0\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Find user by accountNumber",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/{{userUrl}}/:accountNumber",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"{{userUrl}}",
+								":accountNumber"
+							],
+							"variable": [
+								{
+									"key": "accountNumber",
+									"value": "12345678915"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/{{userUrl}}/:accountNumber",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"{{userUrl}}",
+										":accountNumber"
+									],
+									"variable": [
+										{
+											"key": "accountNumber",
+											"value": "12345678915"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"38-6bJyBrcZY6osz/qrMeKllZjNNec\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Oct 2025 14:29:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"name\": \"test 101\",\n        \"accountNumber\": 12345678915\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get user history",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -485,8 +880,18 @@
 		},
 		{
 			"key": "authUrl",
-			"value": "",
-			"type": "default"
+			"value": ""
+		},
+		{
+			"key": "transferUrl",
+			"value": ""
+		},
+		{
+			"key": "userUrl",
+			"value": ""
+		},
+		{
+			"value": ""
 		}
 	]
 }

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { User, userStatus } from "../models/User";
 import bcrypt from "bcrypt";
 import { Bvn } from "../models/Bvn";
-import { sendPasswordResetEmail } from "../config/email";
+import { sendPinResetEmail } from "../config/email";
 require("dotenv").config();
 import jwt from "jsonwebtoken";
 import { registerUserPayload, SetPinDecoded } from "../types/user";
@@ -165,7 +165,7 @@ export const forgotUserPin = async (req: Request, res: Response) => {
     );
 
     const resetUrl = `http://localhost:5173/auth/set-password?token=${token}`;
-    await sendPasswordResetEmail(user.email, resetUrl, {
+    await sendPinResetEmail(user.email, resetUrl, {
       expiresInMinutes: 5,
       name: user.fullName,
     });

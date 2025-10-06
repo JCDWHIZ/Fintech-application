@@ -1,10 +1,10 @@
 import nodemailer from "nodemailer";
 require("dotenv").config();
 const transporter = nodemailer.createTransport({
-  //   host: "smtp.gmail.com", // based on email provider used to send email - gmail - smtp.gmail.com, zoho - smtp.zoho.com
-  service: process.env.EMAIL_SERVICE,
+  host: "smtp.gmail.com", // based on email provider used to send email - gmail - smtp.gmail.com, zoho - smtp.zoho.com
+  // service: process.env.EMAIL_SERVICE,
   port: 587, // 587, 465, 25
-  secure: true, // true for 465, false for other ports
+  secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.GMAIL_USERNAME,
     pass: process.env.GMAIL_PASSWORD,
@@ -33,7 +33,7 @@ export type ResetEmailOptions = {
   companyName?: string; // optional company signature
 };
 
-export const sendPasswordResetEmail = async (
+export const sendPinResetEmail = async (
   to: string,
   resetUrl: string,
   options: ResetEmailOptions = {}
@@ -41,8 +41,8 @@ export const sendPasswordResetEmail = async (
   const {
     name = "Friend",
     expiresInMinutes = 60,
-    from = '"No-Reply" <fintech@tech.com>',
-    companyName = "Fintech",
+    from = '"No-Reply" <cpBankc@tech.com>',
+    companyName = "CpBank",
   } = options;
 
   //   // Plain text fallback (good for clients that block HTML)
@@ -61,7 +61,7 @@ export const sendPasswordResetEmail = async (
   // HTML email with inline CSS (widely supported)
   const html = `
 <!-- Preheader: hidden preview text -->
-<span style="display:none;max-height:0px;overflow:hidden;">Reset your password — link valid for ${expiresInMinutes} minutes.</span>
+<span style="display:none;max-height:0px;overflow:hidden;">Reset your pin — link valid for ${expiresInMinutes} minutes.</span
 
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="font-family:-apple-system, BlinkMacSystemFont,'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color:#f4f6f8; padding:24px 0;">
   <tr>
@@ -74,14 +74,14 @@ export const sendPasswordResetEmail = async (
               Password reset request
             </h1>
             <p style="margin:0 0 20px 0; color:#475569; font-size:14px; line-height:1.5;">
-              Hey ${name}, we got a request to reset your password. Click the button below to choose a new one.
+              Hey ${name}, we got a request to reset your pin. Click the button below to choose a new one.
             </p>
 
             <!-- Button -->
             <div style="text-align:left; margin:18px 0;">
               <a href="${resetUrl}" target="_blank" rel="noopener noreferrer"
                  style="display:inline-block; text-decoration:none; padding:12px 20px; border-radius:10px; font-weight:600; font-size:15px; line-height:1; background:linear-gradient(90deg,#06b6d4,#0ea5a0); color:#ffffff;">
-                Reset password
+                Reset pin
               </a>
             </div>
 
@@ -97,7 +97,7 @@ export const sendPasswordResetEmail = async (
 
             <!-- Note -->
             <p style="margin:0; color:#94a3b8; font-size:12px; line-height:1.4;">
-              This link will expire in ${expiresInMinutes} minutes. If you didn't request a password reset, no action is required.
+              This link will expire in ${expiresInMinutes} minutes. If you didn't request a pin reset, no action is required.
             </p>
           </td>
         </tr>
@@ -130,7 +130,7 @@ export const sendPasswordResetEmail = async (
     const info = await transporter.sendMail({
       from,
       to,
-      subject: `${companyName} — Reset your password`,
+      subject: `${companyName} — Reset your pin`,
       //   text: plainText,
       html,
     });

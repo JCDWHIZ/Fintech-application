@@ -7,6 +7,7 @@ const port = 3000;
 import { authMiddleware } from "./middleware/authMiddleware";
 app.use(express.json());
 const bvnRoutes = require("./routes/bvnRoutes");
+const userRoutes = require("./routes/userRoutes");
 const transferRoutes = require("./routes/transferRoutes");
 const authRoutes = require("./routes/authRoutes");
 require("dotenv").config();
@@ -20,6 +21,7 @@ app.get("/", authMiddleware, (req: any, res) => {
 });
 
 app.use("/api/bvn", bvnRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/transfers", transferRoutes);
 app.use("/api/auth", authRoutes);
 app.listen(port, () => {

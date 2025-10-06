@@ -2,6 +2,7 @@ export interface TransactionInterface {
   amount: number;
   recipientAccountNumber: number;
   recipientAccountName: string;
+  gamePoints: number;
   // recipientBank: string;
   transactionFee: number;
   completedAt?: string;

@@ -24,6 +24,9 @@ const TransactionSchema: Schema<TransactionInterface> = new Schema(
       enum: TransactionStatus,
       default: TransactionStatus.pending.toString(),
     },
+    gamePoints: {
+      type: Number,
+    },
     senderAccountName: {
       type: String,
     },
@@ -36,10 +39,46 @@ const TransactionSchema: Schema<TransactionInterface> = new Schema(
 
 TransactionSchema.pre("save", async function (next) {
   const transaction = this;
+  if (transaction.isModified("amount")) {
+    switch (true) {
+      case transaction.amount < 10000:
+        transaction.transactionFee = 50;
+        break;
 
-  if (transaction.isModified("amount") && transaction.amount > 50000) {
-    transaction.transactionFee = 100;
+      case transaction.amount >= 10000 && transaction.amount <= 50000:
+        transaction.transactionFee = 500; // mid-range fee
+        break;
+
+      case transaction.amount > 50000:
+        transaction.transactionFee = 1000;
+        break;
+
+      default:
+        transaction.transactionFee = 0; // fallback
+        break;
+    }
   }
+
+  if (transaction.isModified("amount")) {
+    switch (true) {
+      case transaction.amount < 10000:
+        transaction.gamePoints = 10;
+        break;
+
+      case transaction.amount >= 10000 && transaction.amount <= 50000:
+        transaction.gamePoints = 20; // mid-range fee
+        break;
+
+      case transaction.amount > 50000:
+        transaction.gamePoints = 40;
+        break;
+
+      default:
+        transaction.gamePoints = 0; // fallback
+        break;
+    }
+  }
+
   next();
 });
 
