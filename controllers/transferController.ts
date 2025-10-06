@@ -69,12 +69,9 @@ export const transferMoney = async (req: any, res: Response) => {
     senderDetails.gamePoints =
       senderDetails.gamePoints + transaction.gamePoints;
 
-    console.log("after tracnsaction", transaction);
-
-    await recipientDetails.save();
-    await senderDetails.save();
-
-    await History.create({
+    // added this for history
+    // created history for sender
+    const history = await History.create({
       userId: senderDetails._id,
       category: "transfer",
       amount: deductable,
@@ -82,7 +79,23 @@ export const transferMoney = async (req: any, res: Response) => {
       status: transaction.status,
     });
 
-    //  create one for the reciever
+    // pushed the id to the array to get later in the getUserHistory
+    senderDetails.historyList.push(history._id);
+
+    // created history for reciever
+    const receiverHistory = await History.create({
+      userId: recipientDetails._id,
+      category: "received",
+      amount,
+      transactionId: transaction._id,
+      status: transaction.status,
+    });
+
+    recipientDetails.historyList.push(receiverHistory._id);
+    console.log("after tracnsaction", transaction);
+
+    await recipientDetails.save();
+    await senderDetails.save();
 
     // update trnsaction details
 
