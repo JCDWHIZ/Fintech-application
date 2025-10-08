@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { ConnectToDb } from "./config/db";
 // import { createBvns, createNins, createAdminUser } from "./models/seed";
 // import { createAdminUser } from "./models/seed";
@@ -11,6 +12,7 @@ const userRoutes = require("./routes/userRoutes");
 const transferRoutes = require("./routes/transferRoutes");
 const authRoutes = require("./routes/authRoutes");
 require("dotenv").config();
+app.use(cors());
 ConnectToDb();
 // createAdminUser();
 // createBvns();

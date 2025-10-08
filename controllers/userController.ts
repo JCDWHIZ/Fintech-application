@@ -47,6 +47,42 @@ export const addBeneficiary = async (req: any, res: Response) => {
     });
   }
 };
+
+export const removeBeneficiary = async (req: any, res: Response) => {
+  const { beneficiaryId } = req.params;
+  const userDetails = req.user as UserDetiails;
+  try {
+    // await User.findByIdAndUpdate(
+    //   userDetails._id,
+    //   { $pull: { beneficiaryList: beneficiaryId } },
+    //   { new: true }
+    // );
+
+    const user = await User.findOne({ _id: userDetails._id });
+    if (!user) {
+      return res.status(400).json({
+        message: "User not found",
+      });
+    }
+
+    // user.beneficiaryList [ objectId1, objectId2, object3].filter(beneficiary => beneficiary.toString() !== beneficiaryId)
+
+    user.beneficiaryList = user.beneficiaryList.filter(
+      (ben) => ben.toString() !== beneficiaryId
+    );
+
+    await user.save();
+
+    return res.status(200).json({
+      message: "Beneficiary removed successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed remove beneficiary",
+      error,
+    });
+  }
+};
 export const findUserDetails = async (req: Request, res: Response) => {
   // use accountNumber
   const { accountNumber } = req.params;
@@ -64,6 +100,29 @@ export const findUserDetails = async (req: Request, res: Response) => {
         name: userDetails.fullName,
         accountNumber: userDetails.phoneNumber,
       },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Unable to fetch user details",
+      error,
+    });
+  }
+};
+
+export const findMyAccount = async (req: any, res: Response) => {
+  // use accountNumber
+  const userDetails = req.user as UserDetiails;
+  try {
+    const user = await User.findOne({ _id: userDetails._id });
+
+    if (!userDetails) {
+      return res.status(400).json({
+        message: "Account not found",
+      });
+    }
+
+    return res.status(200).json({
+      user,
     });
   } catch (error) {
     return res.status(500).json({
@@ -106,7 +165,7 @@ export const getUserhistory = async (req: any, res: Response) => {
     const userDetails = req.user as UserDetiails;
     const accountUser = await User.findOne({
       _id: userDetails._id,
-    }).populate("historyList", "category amount status");
+    }).populate("historyList", "category transactionId amount status");
 
     console.log(accountUser);
 

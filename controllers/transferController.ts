@@ -100,10 +100,14 @@ export const transferMoney = async (req: any, res: Response) => {
     // update trnsaction details
 
     transaction.status = TransactionStatus.successful.toString();
-    console.log("saved details");
-    console.log("recipeint details", recipientDetails);
-    console.log("sender details", senderDetails);
+    history.status = TransactionStatus.successful.toString();
+    receiverHistory.status = TransactionStatus.successful.toString();
+    // console.log("saved details");
+    // console.log("recipeint details", recipientDetails);
+    // console.log("sender details", senderDetails);
     await transaction.save();
+    await history.save();
+    await receiverHistory.save();
     const durationMs = Date.now() - start;
     return res.status(201).json({
       message: `Transfer successful. It took ${durationMs}s  to complete`,
